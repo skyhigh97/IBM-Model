@@ -26,6 +26,7 @@ en_words = []
 for i in range(len(file1)):    
     fr_sentence.append(file1[i]['fr'])
     en_sentence.append(file1[i]['en'])
+    
 for i in range(len(file2)):    
     fr_sentence.append(file2[i]['fr'])
     en_sentence.append(file2[i]['en'])    
@@ -56,10 +57,10 @@ l2 = len(fr_words)
 #print(en_words)
 #print(fr_words)
     
-count = np.zeros(shape=(n,n))    # nxn matrix filled with 0s
-total = []    #list of size n filled with 0s
+count = np.zeros(shape=(l1,l2))    # nxn matrix filled with 0s
+total = np.zeros(l1+l2)    #list of size n filled with 0s
 converged = None
-stotal = []
+stotal = np.zeros(l1+l2)
 t = np.zeros(shape=(l1,l2))
 
 # initialize t(e|f) uniformly
@@ -67,6 +68,7 @@ for i in range(l1):
     for j in range(l2):
         t[i][j] = np.random.uniform(0,1)
 
+'''
 s='\t'
 for j in range(l2):
     s = s + fr_words[j] + '\t'
@@ -77,19 +79,13 @@ for i in range(l1):
     for j in range(l2):
         s = s + str(round(t[i][j],2)) + '\t'
     s = s + '\n'
-print(s)
+print(s)'''
     
-x = 10     
+x = 2000    
         
-while(x):
+while( x ):
     # initialize
-    for i in range(n):
-        for j in range(n):
-            count[i][j] = 0     # initialize count as 0
-            
-    for i in range(100):
-        total.append(0)            # initialize total as 0
-        stotal.append(0)
+   
         
     converged = True    
     
@@ -122,9 +118,12 @@ while(x):
             f1 = fr_words.index(fr_word)
             t[e1][f1] = count[e1][f1]/total[f1]
             
-            #check for convergence
-            if( t[e1][f1] > 0.05 and  t[e1][f1] < 0.95):
-                converged = False  
+    #check for convergence
+    """
+    for i in range(l1):
+        for j in range(l2):
+            if( t[i][j] > 0.05 and  t[i][j] < 0.95):
+                converged = False  """
                 
     x = x-1
 
