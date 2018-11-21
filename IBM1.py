@@ -21,7 +21,7 @@ def IBM1model(file,x=1000):
     en_words = []
 
     #to store translation probability
-    #t = {}
+    
 
     #append each sentence into lists
     for i in range(len(file)):    
@@ -112,14 +112,16 @@ def IBM1model(file,x=1000):
                     
         x = x-1
     
-    printData(en_words,fr_words,t)
+    #printData(en_words,fr_words,t)
 
     return en_words,fr_words,t
 
-
-def printData(en_words, fr_words, t):
+# prints matrix consisting of t(e|f) scores
+def printData(M):
     #print(s1)
-                
+    en_words = M[0]  
+    fr_words = M[1]
+    t = M[2]         
     s='\t'
     for j in range(len(fr_words)):
         s = s + fr_words[j] + '\t'
@@ -133,6 +135,16 @@ def printData(en_words, fr_words, t):
     print(s)
     return
 
+#returns t(e|f) score of a dataset
+def tableCheck(M, s_fr, s_en):
+    en_words = M[0]
+    fr_words = M[1]
+    t = M[2]
+    e1 = en_words.index(s_en)
+    f1 = fr_words.index(s_fr)
+
+    return t[e1][f1]
+
 
 # IMPORT dataset
 file1 = json.load(open('data1.json'))
@@ -142,11 +154,14 @@ file3 = json.load(open('hamara_corpus.json'))
 
 #get translation probability
 
-en_word1,fr_word1,t1 = IBM1model(file1,2000)
-en_word2,fr_word2,t2 = IBM1model(file2,1000)
-en_word3,fr_word3,t3 = IBM1model(file3,5000)
+M1 = IBM1model(file1,2000)
+M2 = IBM1model(file2,1000)
+M3 = IBM1model(file3,2000)
 
 #printData(en_word1,fr_word1, t1)  
 
-      
-       
+print(tableCheck(M3,'das','the'))
+print(tableCheck(M3,'der','the')) 
+printData(M1)
+printData(M2)
+printData(M3)
