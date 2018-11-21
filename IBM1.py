@@ -57,13 +57,13 @@ def IBM1model(file,x=1000):
     count = np.zeros(shape=(l1,l2))    # l1xl2 matrix filled with 0s
     total = np.zeros(l1+l2)    #list of size n filled with 0s
     #converged = False
-    stotal = np.zeros(l1+l2)
+    stotal = np.zeros(l1)
     t = np.zeros(shape=(l1,l2))
 
     # initialize t(e|f) uniformly
     for i in range(l1):
         for j in range(l2):
-            t[i][j] = np.random.uniform(0,1)
+            t[i][j] = 1.0/(l1*l2)
 
 
    
