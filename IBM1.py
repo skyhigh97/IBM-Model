@@ -130,7 +130,8 @@ def IBM1model(file,x=1000):
                     indexx=j
             align_eng.append(en_words[indexx])
 
-        alignment= [[0 for x in range(2)] for y in range(len(f))]    # initialise len(f) * 2 matrix     
+        alignment= [[0 for x in range(2)] for y in range(len(f))]   
+        # initialise len(f) * 2 matrix     
         c=0
         for i in align_eng:
             alignment[c]=[c,e.index(i)]
@@ -147,7 +148,7 @@ def printData(M):
     en_words = M[0]  
     fr_words = M[1]
     t = M[2]         
-    s='\t'
+    s='\n\n\t'
     for j in range(len(fr_words)):
         s = s + fr_words[j] + '\t'
     s = s + '\n'
@@ -160,6 +161,8 @@ def printData(M):
     print(s)
     for i in range(len(M[3])):
         print ((M[3])[i])             # to print alignments line by line
+        
+    print('\n\n')
     return
 
 #returns t(e|f) score of a dataset
@@ -167,16 +170,20 @@ def tableCheck(M, s_fr, s_en):
     en_words = M[0]
     fr_words = M[1]
     t = M[2]
+    if(not(s_en in en_words)):
+        return 0
+    if(not(s_fr in fr_words)):
+        return 0
     e1 = en_words.index(s_en)
     f1 = fr_words.index(s_fr)
 
-    return t[e1][f1]
+    return str(round(t[e1][f1],3))
 
 
 # IMPORT dataset
 file1 = json.load(open('data1.json'))
-file2 = json.load(open('data2.json'))
-file3 = json.load(open('hamara_corpus.json'))
+file2 = json.load(open('data2_.json'))
+file3 = json.load(open('new_corpus.json'))
 
 
 #get translation probability
@@ -187,14 +194,16 @@ M3 = IBM1model(file3,2000)
 
 #printData(en_word1,fr_word1, t1)  
 
-#print(tableCheck(M3,'das','the'))
-#print(tableCheck(M3,'der','the')) 
+
+print("\n\nCorpus: data1" )
 printData(M1)
+print("\n\nCorpus: data2" )
 printData(M2)
+print("\n\nCorpus: Own corpus" )
 printData(M3)
 
-
-
+print(tableCheck(M3,'das','the'))
+print(tableCheck(M3,'haus','xtr')) 
 
 
 
