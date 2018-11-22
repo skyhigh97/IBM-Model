@@ -111,10 +111,35 @@ def IBM1model(file,x=1000):
         
                     
         x = x-1
+    alignments=[]
+    for k in range(n):
+        e =  en_sentence[k].split(' ')
+        f =  fr_sentence[k].split(' ')
+        column = []
+        for i in range(len(f)):
+            column.append(fr_words.index(f[i]))
     
-    #printData(en_words,fr_words,t)
+        align_eng = []
+        
+        for i in column:
+            maxx = 0
+            indexx= 0
+            for j in range(len(en_words)):
+                if t[j][i] > maxx:
+                    maxx = t[j][i]
+                    indexx=j
+            align_eng.append(en_words[indexx])
 
-    return en_words,fr_words,t
+        alignment= [[0 for x in range(2)] for y in range(len(f))]    # initialise len(f) * 2 matrix     
+        c=0
+        for i in align_eng:
+            alignment[c]=[c,e.index(i)]
+            c+=1
+        alignments.append(alignment)
+
+        #print (alignment)
+    #print (alignments)
+    return en_words,fr_words,t,alignments
 
 # prints matrix consisting of t(e|f) scores
 def printData(M):
@@ -133,6 +158,8 @@ def printData(M):
             s = s + str(round(t[i][j],3)) + '\t'
         s = s + '\n'
     print(s)
+    for i in range(len(M[3])):
+        print ((M[3])[i])             # to print alignments line by line
     return
 
 #returns t(e|f) score of a dataset
@@ -160,8 +187,15 @@ M3 = IBM1model(file3,2000)
 
 #printData(en_word1,fr_word1, t1)  
 
-print(tableCheck(M3,'das','the'))
-print(tableCheck(M3,'der','the')) 
+#print(tableCheck(M3,'das','the'))
+#print(tableCheck(M3,'der','the')) 
 printData(M1)
 printData(M2)
 printData(M3)
+
+
+
+
+
+
+
