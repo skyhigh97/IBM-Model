@@ -2,7 +2,7 @@ import time
 import json
 import numpy as np
 from nltk.translate import IBMModel1, AlignedSent
-
+from nltk.translate import IBMModel2, AlignedSent
 
 #load data from json files
 def IBM1_IBM2(filename):

@@ -183,7 +183,7 @@ def tableCheck(M, s_fr, s_en):
 # IMPORT dataset
 file1 = json.load(open('data1.json'))
 file2 = json.load(open('data2_.json'))
-file3 = json.load(open('new_corpus.json'))
+file3 = json.load(open('new_corpus1.json'))
 
 
 #get translation probability
