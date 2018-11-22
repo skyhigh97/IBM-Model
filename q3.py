@@ -3,7 +3,8 @@ from nltk.translate.phrase_based import phrase_extraction
 
 def extractPhrases(file,alignments):
     i = 0
-    print( len(file))
+    phraseList = []
+    
     while i < len(file):
         sourceText = file[i]['en']
         targetText = file[i]['fr']
@@ -39,7 +40,7 @@ def calculateProbabilityScore(phraseList):
     print('\n\n')
     return
 
-file2 = json.load(open('data2.json'))
+file2 = json.load(open('data2_.json'))
 file3 = json.load(open('new_corpus.json'))
 
 alignments2 = [ (0, 0) ,(1, 1) ,(2, 2) ,(3, 3) ,(4, 4) ,(4, 5) ,(5, 6) ,(6, 7) ,(7, 8) ,(8, 9) ,(9, 10) ,(10, 11) ,(3, 12) ]
