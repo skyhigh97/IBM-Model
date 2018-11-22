@@ -130,39 +130,61 @@ def IBM1model(file,x=1000):
                     indexx=j
             align_eng.append(en_words[indexx])
 
-        alignment= [[0 for x in range(2)] for y in range(len(f))]   
-        # initialise len(f) * 2 matrix     
+        alignment= [[0 for x in range(2)] for y in range(len(f))]    # initialise len(f) * 2 matrix     
         c=0
         for i in align_eng:
             alignment[c]=[c,e.index(i)]
             c+=1
         alignments.append(alignment)
 
+
         #print (alignment)
     #print (alignments)
-    return en_words,fr_words,t,alignments
+    mapping=[]                               # english word correspoding to french word
+    mapping_index = []
+    for i in range(len(fr_words)):
+        maxx = 0
+        indexx= 0
+        for j in range(len(en_words)):
+            if t[j][i] > maxx:
+                maxx = t[j][i]
+                indexx=j
+        mapping.append(en_words[indexx])
+        mapping_index.append(indexx)
+
+    return en_words,fr_words,t,alignments,mapping,mapping_index
 
 # prints matrix consisting of t(e|f) scores
 def printData(M):
     #print(s1)
     en_words = M[0]  
     fr_words = M[1]
-    t = M[2]         
+    t = M[2]     
+    mapping_index = M[5]    
     s='\n\n\t'
     for j in range(len(fr_words)):
         s = s + fr_words[j] + '\t'
     s = s + '\n'
         
     for i in range(len(en_words)):
-        s = s + en_words[i] + ' :\t '
+        s = s + en_words[i] + ':\t '
         for j in range( len(fr_words)):
             s = s + str(round(t[i][j],3)) + '\t'
         s = s + '\n'
     print(s)
     for i in range(len(M[3])):
         print ((M[3])[i])             # to print alignments line by line
+
+    for i in range(len(M[4])):
+        print ("%s --> %s" %(fr_words[i],(M[4])[i]))
         
     print('\n\n')
+
+    s ='[ '
+    for i in range(len(mapping_index)):
+       s  = s+ '('+ str(mapping_index[i]) + ', '+ str(i) + ') ,'
+    s = s + ']' + '\n\n'
+    print(s);
     return
 
 #returns t(e|f) score of a dataset
@@ -185,7 +207,7 @@ file1 = json.load(open('data1.json'))
 file2 = json.load(open('data2_.json'))
 file3 = json.load(open('new_corpus1.json'))
 
-
+    
 #get translation probability
 
 M1 = IBM1model(file1,2000)
